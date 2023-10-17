@@ -19,11 +19,22 @@ public class UserApiController {
     @Autowired
     private HttpSession session;
 
-    @PostMapping("/api/signup")
+    @PostMapping("/signup") // 회원가입
     public ResponseDto<Integer> signup(@RequestBody User user) {
 
         userService.signup(user);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    }
+
+    @PostMapping("/login") // 로그인
+    public ResponseDto<Integer> login(@RequestBody User user) {
+        // userService 로그인 구현
+        User principal = userService.login(user);
+        if(principal != null) {
+            session.setAttribute("principal", principal);
+            return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); // 로그인 성공
+        }
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 0); // 로그인 실패
     }
 
 

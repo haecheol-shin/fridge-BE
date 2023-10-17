@@ -10,5 +10,10 @@
         <module name="fridge.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="fridge" target="17" />
+      <module name="fridge.main" target="17" />
+      <module name="fridge.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

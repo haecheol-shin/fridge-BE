@@ -37,5 +37,4 @@ public class UserApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 0); // 로그인 실패
     }
 
-
 }

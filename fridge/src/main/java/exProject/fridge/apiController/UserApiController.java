@@ -24,7 +24,7 @@ public class UserApiController {
 
         boolean result = userService.signup(user);
         if(result) return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); // 회원가입 성공(200)
-        return new ResponseDto<Integer>(HttpStatus.UNAUTHORIZED.value(), 0); // 회원가입 실패(402)
+        return new ResponseDto<Integer>(HttpStatus.UNAUTHORIZED.value(), 0); // 회원가입 실패(401)
     }
 
     @PostMapping("/login") // 로그인
@@ -34,6 +34,10 @@ public class UserApiController {
             session.setAttribute("principal", principal);
             return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); // 로그인 성공(200)
         }
-        return new ResponseDto<Integer>(HttpStatus.UNAUTHORIZED.value(), 0); // 로그인 실패(402)
+        else {
+            boolean idExist = userService.idCheck(user);
+            if(idExist) return new ResponseDto<Integer>(HttpStatus.UNAUTHORIZED.value(), 10); // id/pw 오류
+            else return new ResponseDto<Integer>(HttpStatus.UNAUTHORIZED.value(), 0); // id 존재x
+        }
     }
 }

@@ -26,4 +26,10 @@ public class UserService {
         return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
     }
 
+    @Transactional(readOnly = true)
+    public boolean idCheck(User user) {
+        if(userRepository.findByUsername(user.getUsername()) != null) return true;
+        return false;
+    }
+
 }

@@ -13,8 +13,12 @@ public class UserService {
     private UserRepository userRepository;
 
     @Transactional
-    public void signup(User user) {
-        userRepository.save(user);
+    public boolean signup(User user) {
+        if(userRepository.findByUsername(user.getUsername()) == null) {
+            userRepository.save(user); // username 중복 아니면 가입
+            return true;
+        }
+        return false;
     }
 
     @Transactional(readOnly = true) // SELECT 할 때 트랜잭션 시작, 서비스 종료 시에 트랜잭션 종료 ( 정합성 )

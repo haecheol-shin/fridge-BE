@@ -36,5 +36,4 @@ public class UserApiController {
         }
         return new ResponseDto<Integer>(HttpStatus.UNAUTHORIZED.value(), 0); // 로그인 실패(402)
     }
-
 }

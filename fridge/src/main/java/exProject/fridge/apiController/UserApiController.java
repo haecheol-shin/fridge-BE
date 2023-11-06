@@ -22,19 +22,22 @@ public class UserApiController {
     @PostMapping("/signup") // 회원가입
     public ResponseDto<Integer> signup(@RequestBody User user) {
 
-        userService.signup(user);
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+        boolean result = userService.signup(user);
+        if(result) return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); // 회원가입 성공(200)
+        return new ResponseDto<Integer>(HttpStatus.UNAUTHORIZED.value(), 0); // 회원가입 실패(401)
     }
 
     @PostMapping("/login") // 로그인
     public ResponseDto<Integer> login(@RequestBody User user) {
-        // userService 로그인 구현
         User principal = userService.login(user);
         if(principal != null) {
             session.setAttribute("principal", principal);
-            return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); // 로그인 성공
+            return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); // 로그인 성공(200)
         }
-        return new ResponseDto<Integer>(HttpStatus.OK.value(), 0); // 로그인 실패
+        else {
+            boolean idExist = userService.idCheck(user);
+            if(idExist) return new ResponseDto<Integer>(HttpStatus.UNAUTHORIZED.value(), 10); // id/pw 오류
+            else return new ResponseDto<Integer>(HttpStatus.UNAUTHORIZED.value(), 0); // id 존재x
+        }
     }
-
 }

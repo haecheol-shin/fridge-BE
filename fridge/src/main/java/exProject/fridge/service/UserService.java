@@ -14,7 +14,7 @@ public class UserService {
 
     @Transactional
     public boolean signup(User user) {
-        if(userRepository.findByUsername(user.getUsername()) == null) {
+        if(userRepository.findAll().isEmpty()|| userRepository.findByUsername(user.getUsername()) == null) {
             userRepository.save(user); // username 중복 아니면 가입
             return true;
         }
